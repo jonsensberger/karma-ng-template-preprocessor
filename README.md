@@ -1,6 +1,6 @@
 # karma-ng-template-script-to-template-cache-preprocessor
 
-> Preprocessor for taking HTML files that have <script type="ng/template"> and putting them into the Angularjs Template Cache 
+> Preprocessor for taking HTML files that have `<script type="ng/template"`> and putting them into the Angularjs Template Cache 
 > Thanks to [karma-ng-html2js-preprocessor](https://github.com/karma-runner/karma-ng-html2js-preprocessor) for the idea and code snippets
 
 ## Installation
