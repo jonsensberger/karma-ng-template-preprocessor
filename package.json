@@ -8,6 +8,7 @@
     "name": "Alex jones"
   },
   "main": "lib/index.js",
+  "homepage": "https://github.com/DecisionTechnologies/karma-ng-template-preprocessor#readme",
   "keywords": [
     "angular",
     "angularjs",
@@ -15,6 +16,12 @@
     "karma-plugin",
     "karma-preprocessor"
   ],
+  "bugs": {
+    "url": "https://github.com/DecisionTechnologies/karma-ng-template-preprocessor/issues"
+  },  
+  "peerDependencies": {
+    "karma": ">=0.9"
+  },
   "maintainers": [
     {
       "email": "alex.jones@decision.tech",
