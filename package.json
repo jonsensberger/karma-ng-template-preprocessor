@@ -1,0 +1,33 @@
+{
+  "name": "karma-ng-template-preprocessor",
+  "description": "A Karma plugin. Compile Html with Template Scripts to AngularJS template cache",
+  "license": "MIT",
+  "version": "1.0.0",
+  "author": {
+    "email": "alex.jones@decision.tech",
+    "name": "Alex jones"
+  },
+  "main": "lib/index.js",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "html2js",
+    "karma-plugin",
+    "karma-preprocessor"
+  ],
+  "maintainers": [
+    {
+      "email": "alex.jones@decision.tech",
+      "name": "Alex jones"
+    }
+  ],
+  "dependencies": {
+    "parse5": "^2.1.5"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
