@@ -32,70 +32,79 @@ var assert = require('assert'),
     };
 
 
-describe('transform template script to templateCache', function () {
+describe('transform template script to templateCache', () => {
     var templateScriptToTemplateCacheFunc;
 
-    beforeEach(function () {
-        templateScriptToTemplateCacheFunc = templateScriptToTemplateCache({ create: function () { return { debug: function () { } } }, }, '/test/', {})
+    beforeEach(() => {
+        templateScriptToTemplateCacheFunc = templateScriptToTemplateCache({ create: () => { return { debug: () => { } } }, }, '/test/', {})
     })
 
-    it('Should have the default moduule name', function (done) {
+    it('Should have the default moduule name', done => {
         var content = getTemplateScript(htmlTag1);
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf(`angular.module('templates')`) != -1, true, 'module name missing')
             done();
         })
     });
 
-    it('Should create 2 template cache scripts', function (done) {
+    it('Should create 2 template cache scripts', done => {
         var content = `${getTemplateScript(htmlTag1)} 
                         ${getTemplateScript(htmlTag2)}`
 
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag1.html)) != -1, true)
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag2.html)) != -1, true)
             done();
         })
     });
-    
-    it('Should only have 1 template cache if two scripts templates have the same id', function (done) {
+
+    it('Should only have 1 template cache if two scripts templates have the same id', done => {
         var content = `${getTemplateScript(htmlTag1)} 
                         ${getTemplateScript({ id: htmlTag1.id, html: htmlTag2.html })}`
 
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag1.html)) != -1, true)
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag2.html)) != -1, false)
             done();
         })
     });
-    
-    it('Should handle html where there is no parent element', function (done) {
+
+    it('Should handle html where there is no parent element', done => {
         var content = getTemplateScript(htmlTag3)
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag3.html)) != -1, true)
             done();
         })
     });
-    
-    it('Should handle html where there is no parent element and they are of different node types', function (done) {
+
+    it('Should handle html where there is no parent element and they are of different node types', done => {
         var content = getTemplateScript(htmlTag4)
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf(stripNewLineNewRow(htmlTag4.html)) != -1, true)
             done();
         })
     });
-    
-    it('Should escape \' and handle script tag in different case', function (done) {
+
+    it('Should escape \' and handle script tag in different case', done => {
         var content = getTemplateScript(htmlTag5, 'SCRIPT')
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
             assert.equal(result.indexOf("\'") != -1, true)
             done();
         })
     });
-    
-    it('Should handle invalid xml such as && which can be used in ng-if', function (done) {
+
+    it('Should handle invalid xml such as && which can be used in ng-if', done => {
         var content = getTemplateScript(htmlTag6)
-        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, function (result) {
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => {
+            assert.equal(result.indexOf('&&') != -1, true)
+            done();
+        })
+    });
+
+    it('should preprocess if the file has changed', done => {
+        var content = getTemplateScript(htmlTag6)
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '' }, result => { })
+        templateScriptToTemplateCacheFunc(content, { originalPath: '/test/', path: '', mtime: '123' }, result => {
             assert.equal(result.indexOf('&&') != -1, true)
             done();
         })
